@@ -21,22 +21,17 @@ public class Main {
         displayBoard();
 
         while(!isFinished){
-
-            //Take move
             if (currentPlayer.equals("player"))
                 playerMove();
             else
                 computerMove();
-
             checkWinner();
             isGameFinished();
         }
-
-        // Show winner
     }
 
     static void playerMove(){
-        //take move
+
         System.out.println("Where would you like to play? (1-9)");
         move = scanner.nextInt() - 1;// To fix the index difference (0-8) and (1-9) between player and code.
 
@@ -57,14 +52,14 @@ public class Main {
             randomMove = 0 + random.nextInt(8 - 0 + 1);
             isValidMove = isValidMove(randomMove);
         }
+        System.out.println("The computer move at: "+ randomMove+1);
         playedMoves.add(randomMove);
-        System.out.println("The computer move index is: "+ randomMove);
         makeMove(randomMove, 'O');
     }
 
-    static void makeMove(int place, char sympol){
+    static void makeMove(int place, char symbol){
 
-        updateBoard(place, sympol);
+        updateBoard(place, symbol);
         displayBoard();
 
         currentPlayer = currentPlayer == "player" ? "computer" : "player";
