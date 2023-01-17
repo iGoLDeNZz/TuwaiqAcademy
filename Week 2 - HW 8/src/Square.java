@@ -20,4 +20,11 @@ public class Square extends Rectangle {
         super.setLength(width);
     }
 
+    @Override
+    public String toString() {
+        return "A Square with side = "+
+                getSide() +
+                ", which is a subclass of "+
+                super.toString();
+    }
 }
