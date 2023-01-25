@@ -47,7 +47,7 @@ public class EmployeeController {
     @DeleteMapping("/delete/{index}")
     public ResponseEntity deleteEmployee(@PathVariable int index) {
 
-        if (index >= employees.size())
+        if (index >= employees.size() || index < 0)
             return ResponseEntity.status(400).body(new APIResponse("Employee was not found"));
 
         Employee tobeDeleted = employees.get(index);
