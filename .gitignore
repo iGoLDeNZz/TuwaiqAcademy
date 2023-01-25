@@ -5,3 +5,4 @@ out
 *.cmd
 .mvn
 mvnw
+test
