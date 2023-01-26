@@ -30,7 +30,7 @@ public class UserService {
         users.add(user);
     }
 
-    public ServiceResponse updateUser(User user, int id){
+    public ServiceResponse updateUser(User user, String id){
         for (int i = 0; i < users.size(); i++)
             if(users.get(i).getId().equals(id)) {
                 users.set(i, user);
@@ -39,7 +39,7 @@ public class UserService {
         return new ServiceResponse(404, "user with id: "+id+" not found.");
     }
 
-    public ServiceResponse deleteUser(int id){
+    public ServiceResponse deleteUser(String id){
         for (int i = 0; i < users.size(); i++)
             if(users.get(i).getId().equals(id)) {
                 users.remove(i);
@@ -47,9 +47,6 @@ public class UserService {
             }
         return new ServiceResponse(400, "user with id: "+id+" not found.");
     }
-
-//    Create endpoint where user can add product to a merchantStock
-//this endpoint should accept a productid and merchantid and stock
 
     public ServiceResponse addStock(String productId, String merchantId, int stock){
 
@@ -99,7 +96,7 @@ public class UserService {
 //    deducted the price of the product from the user balance.
 //            if balance is less than the product price return bad request.
 
-    public ServiceResponse buy(String userid, String productId, String merchantId, int quantitiy){
+    public ServiceResponse buy(String userid, String productId, String merchantId, int quantity){
 
         User buyer = null;
         boolean productExists = false;
@@ -108,7 +105,7 @@ public class UserService {
 
         // 1. check quantity is positive
 
-        if(quantitiy < 1 ){
+        if(quantity < 1 ){
             return new ServiceResponse(400, "Stock to buy must be positive");
         }
 
@@ -116,7 +113,7 @@ public class UserService {
 
         for (Product product : productService.products){
             if (product.getId().equals(productId)){
-                totalCost = product.getPrice() * quantitiy;
+                totalCost = product.getPrice() * quantity;
                 productExists = true;
             }
         }
@@ -147,15 +144,15 @@ public class UserService {
 
                 int currentStock = merchantStockService.merchantStocks.get(i).getStock();
 
-                if (currentStock >= quantitiy) {
+                if (currentStock >= quantity) {
                     // 4 b) deduct cost from user balance
                     // 4 c) reduce stock by quantity ordered
 
-                    merchantStockService.merchantStocks.get(i).setStock(currentStock - quantitiy);
+                    merchantStockService.merchantStocks.get(i).setStock(currentStock - quantity);
                     buyer.setBalance(buyer.getBalance() - totalCost);
                     return new ServiceResponse(200, "Order was fulfilled.");
                 } else {
-                    return new ServiceResponse(400, "Not enough stock for the order. Current stock: "+currentStock+". Order quantity: "+quantitiy+".");
+                    return new ServiceResponse(400, "Not enough stock for the order. Current stock: "+currentStock+". Order quantity: "+quantity+".");
                 }
             }
         }
