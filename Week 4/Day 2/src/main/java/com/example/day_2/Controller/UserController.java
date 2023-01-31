@@ -36,11 +36,7 @@ public class UserController {
         if (errors.hasErrors()){
             return ResponseEntity.status(400).body(errors.getFieldError().getDefaultMessage());
         }
-
-        if (userService.updateUser(id, user))
             return ResponseEntity.status(200).body("User update");
-        else
-            return ResponseEntity.status(400).body("User with id: "+id+" not found");
     }
 
     @DeleteMapping("/delete/{id}")
@@ -48,13 +44,29 @@ public class UserController {
         if (errors.hasErrors()){
             return ResponseEntity.status(400).body(errors.getFieldError().getDefaultMessage());
         }
+        return ResponseEntity.status(200).body("User with id: "+id+" was delete.");
+    }
 
-        if (userService.deleteUser(id))
-            return ResponseEntity.status(200).body("User with id: "+id+" was delete.");
-        else
-            return ResponseEntity.status(400).body("User with id: "+id+" was not found.");
+    @GetMapping("/age")
+    public ResponseEntity getUsersByAge(@RequestBody User user){
+        return ResponseEntity.status(200).body(userService.getUsersByAge(user));
+    }
+
+    @GetMapping("/auth")
+    public ResponseEntity authUser(@RequestBody User user){
+        userService.getUserByUsernameAndPassword(user);
+        return ResponseEntity.status(200).body("Username and password are correct, welcome back.");
     }
 
 
+    @GetMapping("/role")
+    public ResponseEntity getUsersByRole(@RequestBody User user){
+        return ResponseEntity.status(200).body(userService.getUserByRole(user));
+    }
+
+    @GetMapping("/email")
+    public ResponseEntity getUsersByEmail(@RequestBody User user){
+        return ResponseEntity.status(200).body(userService.getUserByEmail(user));
+    }
 }
 
