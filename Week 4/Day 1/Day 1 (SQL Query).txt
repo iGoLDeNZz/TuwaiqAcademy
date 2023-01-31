@@ -1,0 +1,56 @@
+create database store;
+
+#  ------ Task 1,2,3 ------
+drop table countries;
+
+create table countries(
+  code int primary key,
+  name varchar(30) unique,
+  country_name varchar(30) not null
+);
+
+create table users(
+  id int primary key,
+  full_name varchar(20) not null,
+  email varchar(20) not null unique,
+  gender char check ( gender = 'f' or gender = 'm' ),
+  date_of_birth varchar(15),
+  country_code int,
+  foreign key (country_code) references countries(code) on delete cascade
+);
+
+
+create table orders(
+    id int primary key auto_increment,
+    user_id int not null,
+    foreign key (user_id) references users(id) on delete cascade,
+    status varchar(6) check ( status = 'finish' or status = 'start' ),
+    created_at datetime default now()
+);
+
+create table products(
+    id int primary key auto_increment,
+    name varchar(10) not null,
+    price int not null default 0,
+    status varchar(10) check ( status = 'valid' or status = 'expired' ),
+    created_at datetime default now()
+);
+
+create table order_items(
+    order_id int,
+    foreign key (order_id) references orders(id),
+    product_id int,
+    foreign key (product_id) references products(id),
+    quantity int default 0
+);
+
+
+#  ------ Task 4 ------
+insert into countries values (966, 'Saudi Arabia', 'Asia');
+insert into usesrs values (1, 'Yousef ??????', 'Yousef@Gmail.com', 'm', '????/?/?', 966);
+insert into orders (id, user_id, status) values (1, 1, 'start');
+insert into products (id, name, price, status) values (1, 'Diet Pepsi',3 , 'valid');
+insert into order_items (order_id, product_id, quantity) values (1, 1, 24);
+
+update countries set name = 'KSA' where code = 966;
+delete from products where id = 1;
