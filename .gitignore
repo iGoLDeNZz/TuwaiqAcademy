@@ -7,3 +7,6 @@ out
 mvnw
 test
 /Week 5/Day3_OneToMany/src/main/resources/application.properties
+.properties
+*.properties
+/Week 5/Day4/src/main/resources/application.properties
